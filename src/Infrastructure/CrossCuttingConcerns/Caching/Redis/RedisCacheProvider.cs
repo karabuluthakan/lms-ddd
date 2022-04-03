@@ -143,6 +143,16 @@ public class RedisCacheProvider : ICacheProvider
     /// <summary>
     /// 
     /// </summary>
+    /// <returns></returns>
+    public async ValueTask<bool> CheckStatus()
+    {
+        await ConnectAsync();
+        return _connection.IsConnecting;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public void Dispose()
     {
         _connection?.Close();

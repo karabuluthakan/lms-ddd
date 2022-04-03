@@ -42,4 +42,10 @@ public interface ICacheProvider : IDisposable
     /// <param name="pattern"></param>
     /// <returns></returns>
     ValueTask RemoveByPatternAsync(string pattern);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    ValueTask<bool> CheckStatus();
 }
