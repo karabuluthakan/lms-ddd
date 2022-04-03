@@ -6,5 +6,6 @@ public class AddServiceDependency : IConfigureServiceModule
     {
         services.AddScoped<IPaginationUriProvider, PaginationUriProvider>();
         services.AddHttpContextAccessor();
+        services.AddHttpClient();
     }
 }

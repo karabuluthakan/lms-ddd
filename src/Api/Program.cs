@@ -12,7 +12,24 @@ builder.Services.AddMediatR(assemblies);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(opt =>
+    {
+        opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        opt.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+        opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+    })
+    .AddFluentValidation(opt =>
+    {
+        opt.RegisterValidatorsFromAssemblyContaining<Program>();
+        opt.ImplicitlyValidateChildProperties = true;
+    })
+    .AddMvcOptions(opt =>
+    {
+        opt.ModelMetadataDetailsProviders.Clear();
+        opt.ModelValidatorProviders.Clear();
+    });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -29,6 +46,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 
