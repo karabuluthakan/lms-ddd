@@ -1,0 +1,13 @@
+global using MediatR;
+global using Ardalis.GuardClauses;
+global using Domain.DataAccess;
+global using Domain.SharedCore;
+global using Domain.Entities.Courses;
+global using Domain.ResponseContract.Abstract;
+global using Domain.Entities.Courses.DataTransferObjects;
+global using Domain.ResponseContract;
+global using FluentValidation;
+global using Application.Courses.Command;
+global using Application.Students.Command;
+global using Domain.Entities.Students.DataTransferObjects;
+global using Domain.SharedCore.Abstract;

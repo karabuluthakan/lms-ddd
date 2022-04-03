@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:latest
+  
+  pgadmin:
+    image: dpage/pgadmin4
+  
+  redis:
+    image: redis:latest
+  
+  api:
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    depends_on:
+      - postgres
+      - redis
+        
+networks:
+  lms_network:
+    driver: bridge
+  

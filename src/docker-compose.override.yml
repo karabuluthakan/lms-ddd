@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  postgres:
+    container_name: lms_postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database:/var/lib/postgresql/data
+      - ./database:/var/log/postgresql
+      - ./database:/etc/postgresql
+    environment:
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    restart: always
+    networks:
+      - lms_network
+  
+  pgadmin:
+    container_name: lms_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    ports:
+      - "5050:80"
+    restart: always
+    volumes:
+      - ./database:/var/lib/pgadmin
+    networks:
+      - lms_network
+  
+  redis:
+    container_name: lms_redis
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD:root
+    restart: always
+  
+  api:
+    container_name: lms_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:DefaultDatabase=Server=127.0.0.1;Port=5432;Database=postgres;User Id=postgres;Password=postgres;"
+      - "CacheSettings:ConnectionString=127.0.0.1:6380,DefaultDatabase=1"
+volumes:
+  database:
+  databaseLog:
+  databaseConf:
+  pgadmin:
